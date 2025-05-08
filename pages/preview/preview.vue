@@ -19,7 +19,7 @@
 					<uni-icons type="info" size="28"></uni-icons>
 					<view class="text">信息</view>
 				</view>
-				<view class="box">
+				<view class="box" @click="clickScore">
 					<uni-icons type="star" size="28"></uni-icons>
 					<view class="text">5分</view>
 				</view>
@@ -34,18 +34,66 @@
 				<view class="popHeader">
 					<view></view>
 					<view class="title">壁纸信息</view>
-					<view class="close">
+					<view class="close" @click="clickInfoClose">
 						<uni-icons type="closeempty" size="18" color="#999"></uni-icons>
 					</view>
 				</view>
 				<scroll-view scroll-y>
 					<view class="content">
-						<view class="row" v-for="item in 30">
-							<view class="label">壁纸ID:</view>
-							<text class="value" selectable>12312312423423423423423423423423423423423</text>
+						<view class="row">
+							<view class="label">壁纸ID：</view>
+							<text class="value" selectable>12312312312312</text>
+						</view>
+						<view class="row">
+							<view class="label">分类：</view>
+							<text class="value class" >明星美女</text>
+						</view>
+						<view class="row">
+							<view class="label">发布者：</view>
+							<text class="value" >咸虾米</text>
+						</view>
+						<view class="row">
+							<view class="label">评分：</view>
+							<view class="value roteBox" >
+								<uni-rate readonly touchable value="3" size="16"/>
+								<text class="score">5分</text>
+							</view>
+						</view>
+						<view class="row">
+							<view class="label">摘要：</view>
+							<text class="value">摘要内容填充部分，摘要内容填充部分，摘要内容填充部分，摘要内容填充部分，摘要内容填充部分，摘要内容填充部分，摘要内容填充部分</text>
+						</view>
+						<view class="row">
+							<view class="label">标签：</view>
+							<view class="value tabs" >
+								<view class="tab" v-for="item in 3">标签名</view>
+							</view>
+						</view>
+						
+						<view class="copyright">
+							声明：本图片来用户投稿，非商业使用，用于免费学习交流，如侵犯了您的权益，您可以拷贝壁纸ID举报至平台，邮箱，管理将删除侵权壁纸，维护您的权益
 						</view>
 					</view>
 				</scroll-view>
+			</view>
+		</uni-popup>
+		
+		<uni-popup ref="scorePopup">
+			<view class="scorePopup">
+				<view class="popHeader">
+					<view></view>
+					<view class="title">壁纸评分</view>
+					<view class="close" @click="clickScoreClose">
+						<uni-icons type="closeempty" size="18" color="#999"></uni-icons>
+					</view>
+				</view>
+				<view class="content">
+					<uni-rate v-model="userScore" @change="onChange" />
+					<text class="text">{{userScore}}分</text>
+				</view>
+				<view class="footer">
+					<button type="default" size="mini" plain>确认评分</button>
+				</view>
 			</view>
 		</uni-popup>
     </view>
@@ -56,15 +104,34 @@
 	
 	const maskState = ref(true)
 	const infoPopup = ref(null)
+	const scorePopup = ref(null)
+	const userScore = ref(0)
 	
 	//点击info弹窗
 	const clickInfo = () => {
 		infoPopup.value.open();
 	}
 	
+	//点击关闭信息弹窗
+		
+	const clickInfoClose  = () => {
+		infoPopup.value.close();
+	}
+	
 	//遮罩层状态
 	const maskChange = () => {
 		maskState.value = !maskState.value
+	}
+	
+	//评分弹窗
+	const clickScore = () => {
+		scorePopup.value.open()
+	}
+	
+	//关闭评分框
+		
+	const clickScoreClose = () => {
+		scorePopup.value.close()
 	}
 
 </script>
@@ -176,6 +243,41 @@
 						flex: 1;
 						width: 0;
 					}
+					.roteBox{
+						display: flex;
+						align-items:center;
+						.score{
+							font-size: 26rpx;
+							color: $text-font-color-2;
+							padding-left: 10rpx;
+						}
+					}
+					.tabs{
+						display: flex;
+						flex-wrap: wrap;
+						.tab{
+							border: 1px solid $brand-theme-color;
+							color: $brand-theme-color;
+							font-size: 22rpx;
+							padding: 10rpx 30rpx;
+							border-radius: 40rpx;
+							line-height: 1em;
+							margin: 0 10rpx 10rpx 0;
+						}
+					}
+					.class{
+						color: $brand-theme-color;
+					}
+					
+				}
+				.copyright{
+					font-size: 28rpx;
+					padding: 20rpx;
+					background: #F6F6F6;
+					color: #666;
+					border-radius: 10rpx;
+					margin: 20rpx 0;
+					line-height: 1.6em;
 				}
 			}
 		}
