@@ -78,7 +78,7 @@
 			</view>
 		</uni-popup>
 		
-		<uni-popup ref="scorePopup">
+		<uni-popup ref="scorePopup" :is-mask-click="false">
 			<view class="scorePopup">
 				<view class="popHeader">
 					<view></view>
@@ -88,11 +88,11 @@
 					</view>
 				</view>
 				<view class="content">
-					<uni-rate v-model="userScore" @change="onChange" />
+					<uni-rate v-model="userScore" allow-half/>
 					<text class="text">{{userScore}}分</text>
 				</view>
 				<view class="footer">
-					<button type="default" size="mini" plain>确认评分</button>
+					<button @click="submitScore" :disabled="!userScore" type="default" size="mini" plain>确认评分</button>
 				</view>
 			</view>
 		</uni-popup>
@@ -132,6 +132,11 @@
 		
 	const clickScoreClose = () => {
 		scorePopup.value.close()
+	}
+	
+	//确认评分
+	const submitScore = () => {
+		console.log(userScore.value)
 	}
 
 </script>
@@ -207,24 +212,25 @@
 			}
 		}
 	}
+	.popHeader{
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		.title{
+			color: $text-font-color-2;
+			font-size: 26rpx;
+		}
+		.close{
+			padding: 6rpx;
+		}
+	}
 
 	.infoPopup{
 		background: #fff;
 		padding: 30rpx;
 		border-radius: 30rpx 30rpx 0 0;
 		overflow: hidden;
-		.popHeader{
-			display: flex;
-			justify-content: space-between;
-			align-items: center;
-			.title{
-				color: $text-font-color-2;
-				font-size: 26rpx;
-			}
-			.close{
-				padding: 6rpx;
-			}
-		}
+		
 		scroll-view{
 			max-height: 60vh;
 			.content{
@@ -280,6 +286,32 @@
 					line-height: 1.6em;
 				}
 			}
+		}
+	}
+
+	.scorePopup{
+		background: #fff;
+		padding: 30rpx;
+		width: 70vw;
+		border-radius: 30rpxa;
+		.content{
+			padding: 30rpx 0;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			.text{
+				color: #FFCA3E;
+				padding-left: 10rpx;
+				width: 80rpx;
+				line-height: 1em;
+				text-align: right;
+			}
+		}
+		.footer{
+			padding: 10rpx 0;
+			display: flex;
+			align-items: center;
+			justify-content: center;
 		}
 	}
 }
